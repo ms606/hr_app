@@ -6,3 +6,9 @@ async function initialize(){
 };
 
 module.exports.initialize = initialize;
+
+async function close() {
+    await oracledb.getPool().close();
+}
+
+module.exports.close = close;
