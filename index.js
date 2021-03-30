@@ -38,11 +38,24 @@ async function shutdown(e){
         console.log('Closing web server module!');
         
         await webServer.close();
+
+            try {
+                console.log('Closing database module');
+
+                await database.close();
+            } catch (err) {
+                console.log('Encountered error', e);
+
+                err = err || e; 
+            }
+
     } catch (e) {
         console.log('Encountered error', e); 
 
         err = err || e;
     }
+
+
 
     console.log('Exiting process');
 
