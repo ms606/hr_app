@@ -14,7 +14,8 @@ function initialize(){
      app.use(morgan('Combined'));
 
      app.get('/', async (req, res) => {
-         res.end('Test 2!');
+        
+
         //  const result = await database.simpleExecute('select ename from employee_master');
         //  console.log(result , 'aa');
         const result = await database.simpleExecute('select user, systimestamp from dual');
@@ -24,7 +25,7 @@ function initialize(){
         const user = result.rows[0].USER;
         const date = result.rows[0].SYSTIMESTAMP;
 
-        res.end('DB user: ${user}\n Date: ${date}');
+        res.end(`DB user: ${user}\nDate: ${date}`);
      });
 
      httpServer.listen(webServerConfig.port)
