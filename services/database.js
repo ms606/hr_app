@@ -28,9 +28,15 @@ function simpleExecute(statement, binds = [], opts = {}) {
         } catch (err) {
             reject (err);
         } finally {
-            if (conn) {
-                
+            if (conn) { // conn assignment worked, need to close 
+              try {
+                  await conn.close();
+              } catch (err) {
+                  console.log(err);
+              }
             }
         }
-    })
+    });
 }
+
+module.exports.simpleExecute = simpleExecute;

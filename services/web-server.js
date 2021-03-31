@@ -1,6 +1,7 @@
 const http = require('http');
 const express = require('express');
 const webServerConfig = require('../config/web-server.js');
+const database = require('./database.js')
 const morgan = require('morgan');
 
 let httpServer;
@@ -11,8 +12,19 @@ function initialize(){
      httpServer = http.createServer(app);
      
      app.use(morgan('Combined'));
-     app.get('/', (req, res) => {
-         res.end('Hello World!');
+
+     app.get('/', async (req, res) => {
+         res.end('Test 2!');
+        //  const result = await database.simpleExecute('select ename from employee_master');
+        //  console.log(result , 'aa');
+        const result = await database.simpleExecute('select user, systimestamp from dual');
+        
+        console.log(result);
+
+        const user = result.rows[0].USER;
+        const date = result.rows[0].SYSTIMESTAMP;
+
+        res.end('DB user: ${user}\n Date: ${date}');
      });
 
      httpServer.listen(webServerConfig.port)
