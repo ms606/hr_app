@@ -12,6 +12,10 @@ function initialize(){
      httpServer = http.createServer(app);
      
      app.use(morgan('Combined'));
+     //Parse incoming JSON requests and revive JSON.
+     app.use(express.json({
+      revive: reviveJson
+     }));
      app.use('/api', router);
 
 
