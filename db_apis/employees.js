@@ -3,10 +3,8 @@ const oracledb = require('oracledb');
 
 
 const baseQuery = 
- `select ecode "ID",
-         ename "first_name",
-         fname "father name",
-         apdat "appointment date"
+ `select ecode "ecode",
+         ename "ename"
   from employee_master`;
 
   async function find(context) {
@@ -28,7 +26,7 @@ const baseQuery =
 
 
   const createSql = 
-    'insert into employee_master (ecode, ename, fname, apdat) values (:ecode, :ename, :fname, :apdat';
+    'insert into employee_master (ecode, ename) values ("5000", "Muffin")';
 
   async function create(emp) {
     const employee = Object.assign({}, emp);
@@ -64,7 +62,6 @@ const baseQuery =
 
   const deleteSql = 
     ` delete from employee_master where ecode = :ecode;
-
       :rowcount := sql%rowcount;
     `;
 

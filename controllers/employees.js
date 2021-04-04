@@ -25,11 +25,10 @@ async function get(req, res, next) {
  
 module.exports.get = get;
 
-function getEmployeeFromRec (req) {
+function getEmployeeFromRec(req) {
   const employee = {
     ecode: req.body.ecode,
-    first_name: req.body.first_name,   
-    apdat: req.body.apdat
+    ename: req.body.ename
   };
 
   return employee;
@@ -61,9 +60,9 @@ async function put(req, res, next){
       res.status(200).json(employee);
     } else {
       res.status(404).end();
-    } catch (err) {
-      next(err);
-    }
+    } 
+  } catch (err) {
+    next(err);
   }
 }
 
