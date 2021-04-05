@@ -25,12 +25,12 @@ async function get(req, res, next) {
  
 module.exports.get = get;
 
-function getEmployeeFromRec(req) {
+function getEmployeeFromRec (req) {
   const employee = {
     ecode: req.body.ecode,
     ename: req.body.ename
   };
-
+    
   return employee;
 }
 
@@ -62,7 +62,7 @@ async function put(req, res, next){
       res.status(404).end();
     } 
   } catch (err) {
-    next(err);
+      next(err);
   }
 }
 
@@ -85,3 +85,5 @@ async function put(req, res, next){
  }
 
  module.exports.delete = del;
+
+ 

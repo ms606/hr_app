@@ -26,17 +26,27 @@ const baseQuery =
 
 
   const createSql = 
-    'insert into employee_master (ecode, ename) values ("5000", "Muffin")';
+    `insert into employee_master (
+        ecode, 
+        ename
+      ) values (
+        4991, 
+        'MuffinTest'
+      )`;
 
   async function create(emp) {
     const employee = Object.assign({}, emp);
 
-    employee.ecode = {
-      dir: oracledb.BIND_OUT,
-      type: oracledb.NUMBER
+    console.log(emp);
+
+     employee.ecode = {
+       dir: oracledb.BIND_OUT,
+       type: oracledb.NUMBER
     }
 
-    const result = await database.simpleExecute(createSql, employee);
+     console.log('message1',employee.ecode);
+
+    const result = await database.simpleExecute(createSql);
 
     employee.ecode = result.outBinds.ecode[0];
 

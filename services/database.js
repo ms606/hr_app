@@ -14,6 +14,7 @@ async function close() {
 module.exports.close = close;
 
 function simpleExecute(statement, binds = [], opts = {}) {
+
     return new Promise(async (resolve, reject) => {
         let conn;
 
@@ -22,6 +23,7 @@ function simpleExecute(statement, binds = [], opts = {}) {
 
         try {
             conn = await oracledb.getConnection();
+            console.log('database testing', statement, binds, opts)
             const result = await conn.execute(statement, binds, opts);
 
             resolve(result);
