@@ -25,7 +25,7 @@ async function get(req, res, next) {
  
 module.exports.get = get;
 
-function getEmployeeFromRec (req) {
+function getEmployeeFromRec(req){
   const employee = {
     ecode: req.body.ecode,
     ename: req.body.ename
@@ -37,7 +37,9 @@ function getEmployeeFromRec (req) {
 async function post(req, res, next){
   try {
     let employee = getEmployeeFromRec(req);
-
+    
+    console.log('post',employee);
+    
     employee = await employees.create(employee);
 
     res.status(201).json(employee);

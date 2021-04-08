@@ -24,31 +24,36 @@ const baseQuery =
   
   module.exports.find = find;
 
-
+// ------------------------------------------
   const createSql = 
     `insert into employee_master (
         ecode, 
         ename
       ) values (
-        4991, 
-        'MuffinTest'
-      )`;
+        4981, 
+        :ename
+      ) `;
 
   async function create(emp) {
+
+    // await database.makeQuery();
+    // return null;
+
     const employee = Object.assign({}, emp);
 
-    console.log(emp);
+     console.log(emp);
+     console.log('message0.1',createSql);
+     console.log('message0',employee);
 
-     employee.ecode = {
-       dir: oracledb.BIND_OUT,
-       type: oracledb.NUMBER
+    employee.ename  = {
+      val: 'Test Name',
+       dir: oracledb.BIND_INOUT,
     }
+    console.log('message1',employee);    
 
-     console.log('message1',employee.ecode);
+    const result = await database.simpleExecute(createSql, employee.ename);
 
-    const result = await database.simpleExecute(createSql);
-
-    employee.ecode = result.outBinds.ecode[0];
+    employee.ecode = result.outBinds.employee.ecode[0];
 
     return employee;
   }

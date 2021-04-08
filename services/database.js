@@ -13,10 +13,21 @@ async function close() {
 
 module.exports.close = close;
 
-function simpleExecute(statement, binds = [], opts = {}) {
+async function makeQuery() {
+  let conn;
+
+  conn = await oracledb.getConnection();
+  const result = await conn.execute('SELECT * FROM EMPLOYEE_MASTER WHERE ECODE = :ecode', {
+    ecode: {val: 52, dir: oracledb.BIND_INOUT}
+  });
+  console.log(result);
+}
+
+async function simpleExecute(statement, binds, opts = {}) {
 
     return new Promise(async (resolve, reject) => {
         let conn;
+        let result = [];
 
         opts.outFormat = oracledb.OBJECT;
         opts.autoCommit = true;
@@ -24,7 +35,9 @@ function simpleExecute(statement, binds = [], opts = {}) {
         try {
             conn = await oracledb.getConnection();
             console.log('database testing', statement, binds, opts)
-            const result = await conn.execute(statement, binds, opts);
+            // const result = await conn.execute(statement, {
+            //   ename: {val: 'Test name', dir: oracledb.BIND_INOUT}
+            // }, opts);
 
             resolve(result);
         } catch (err) {
@@ -39,6 +52,35 @@ function simpleExecute(statement, binds = [], opts = {}) {
             }
         }
     });
+
+//   let conn;
+//   let result = [];
+
+//   opts.outFormat = oracledb.OBJECT;
+//   opts.autoCommit = true;
+
+
+// try {
+//     conn = await oracledb.getConnection();
+//     result = await conn.execute(statement,binds,opts);
+
+//     return (result);
+//   } catch (err) {
+//     console.error(err);
+//     throw (err);
+//   } finally {
+//     if (conn) { // conn assignment worked, need to close
+//       try {
+//         await conn.close();
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     }
+//   }
+
+
+
 }
 
 module.exports.simpleExecute = simpleExecute;
+module.exports.makeQuery = makeQuery;
