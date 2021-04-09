@@ -3,8 +3,11 @@ const oracledb = require('oracledb');
 
 
 const baseQuery = 
- `select ecode "ecode",
-         ename "ename"
+ `select ecode "Employee I.D.",
+         ename "Name",
+         fname "Father's Name",
+         addr1 "Address",
+         to_char(apdat,'DD-Month-YYYY')  "Appointed On"
   from employee_master`;
 
   async function find(context) {
@@ -30,7 +33,7 @@ const baseQuery =
         ecode, 
         ename
       ) values (
-        4981, 
+        :ecode, 
         :ename
       ) `;
 
@@ -41,30 +44,60 @@ const baseQuery =
 
     const employee = Object.assign({}, emp);
 
-     console.log(emp);
-     console.log('message0.1',createSql);
-     console.log('message0',employee);
+    // console.log(emp);
+     //console.log('message0.1',createSql);
+     //console.log('message0',employee);
 
-    employee.ename  = {
-      val: 'Test Name',
-       dir: oracledb.BIND_INOUT,
-    }
-    console.log('message1',employee);    
+    let obj = {} ;
 
-    const result = await database.simpleExecute(createSql, employee.ename);
+     obj.ecode  = {
+       val: employee.ecode,
+        dir: oracledb.BIND_INOUT,
+     }
 
-    employee.ecode = result.outBinds.employee.ecode[0];
+     obj.ename  = {
+        val: employee.ename,
+        dir: oracledb.BIND_INOUT,
+     }
+
+    //console.log('message1', obj);    
+
+    const result = await database.simpleExecute(createSql, obj);
+  
+    //console.log("result",result);
+
+    employee.ecode = result.outBinds.ecode[0];
 
     return employee;
   }
 
   module.exports.create = create;
 
-  const updateSql = 'update employee_master set ename = :ename, fname = :fname, apdat = :apdat where ecode = :ecode';
+  const updateSql = 
+      `update employee_master 
+       set    ename = :ename
+       where  ecode = :ecode`;
+              //   fname = :fname, apdat = :apdat 
+
 
   async function update(emp) {
     const employee = Object.assign({}, emp);
-    const result = await database.simpleExecute(updateSql, employee);
+
+     let obj = {} ;
+
+     obj.ecode  = {
+        val: employee.ecode,
+        dir: oracledb.BIND_INOUT,
+     }
+
+     obj.ename = {
+        val: employee.ename,
+        dir: oracledb.BIND_INOUT
+    }
+    
+    console.log('message0',obj);   
+
+    const result = await database.simpleExecute(updateSql, obj);
 
     if (result.rowsAffected && result.rowsAffected === 1) {
       return employee;

@@ -28,7 +28,8 @@ module.exports.get = get;
 function getEmployeeFromRec(req){
   const employee = {
     ecode: req.body.ecode,
-    ename: req.body.ename
+    ename: req.body.ename,
+    fname: req.body.fname
   };
     
   return employee;
@@ -38,7 +39,7 @@ async function post(req, res, next){
   try {
     let employee = getEmployeeFromRec(req);
     
-    console.log('post',employee);
+    //console.log('post',employee);
     
     employee = await employees.create(employee);
 
@@ -54,7 +55,9 @@ async function put(req, res, next){
   try {
     let employee = getEmployeeFromRec(req);
 
-    employee.employee_id = parseInt(req.params.id, 10);
+    console.log('put',employee);
+
+    employee.ecode = parseInt(req.params.id, 10);
 
     employee = await employees.update(employee);
 

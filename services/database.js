@@ -34,10 +34,8 @@ async function simpleExecute(statement, binds, opts = {}) {
 
         try {
             conn = await oracledb.getConnection();
-            console.log('database testing', statement, binds, opts)
-            // const result = await conn.execute(statement, {
-            //   ename: {val: 'Test name', dir: oracledb.BIND_INOUT}
-            // }, opts);
+          //  console.log('database testing', statement, binds, opts)
+             const result = await conn.execute(statement, binds, opts);
 
             resolve(result);
         } catch (err) {
@@ -52,34 +50,6 @@ async function simpleExecute(statement, binds, opts = {}) {
             }
         }
     });
-
-//   let conn;
-//   let result = [];
-
-//   opts.outFormat = oracledb.OBJECT;
-//   opts.autoCommit = true;
-
-
-// try {
-//     conn = await oracledb.getConnection();
-//     result = await conn.execute(statement,binds,opts);
-
-//     return (result);
-//   } catch (err) {
-//     console.error(err);
-//     throw (err);
-//   } finally {
-//     if (conn) { // conn assignment worked, need to close
-//       try {
-//         await conn.close();
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     }
-//   }
-
-
-
 }
 
 module.exports.simpleExecute = simpleExecute;
