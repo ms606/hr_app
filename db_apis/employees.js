@@ -3,7 +3,7 @@ const oracledb = require('oracledb');
 
 
 const baseQuery = 
- `select ecode "Employee I.D.",
+ `select ecode "Employee ID",
          ename "Name",
          fname "Father's Name",
          addr1 "Address",
@@ -75,27 +75,37 @@ const baseQuery =
 
   const updateSql = 
       `update employee_master 
-       set    ename = :ename
+       set    ename = :ename,
+              fname = :fname
        where  ecode = :ecode`;
               //   fname = :fname, apdat = :apdat 
 
 
   async function update(emp) {
     const employee = Object.assign({}, emp);
+    
 
-     let obj = {} ;
+    //console.log('putty', employee);
+    
 
-     obj.ecode  = {
+    let obj = {} ;
+
+    obj.ecode  = {
         val: employee.ecode,
-        dir: oracledb.BIND_INOUT,
-     }
+        dir: oracledb.BIND_INOUT
+    }
 
-     obj.ename = {
+    obj.ename = {
         val: employee.ename,
         dir: oracledb.BIND_INOUT
     }
+
+    obj.fname = {
+        val: employee.fname,
+        dir: oracledb.BIND_INOUT
+    }
     
-    console.log('message0',obj);   
+    //console.log('message0',obj);   
 
     const result = await database.simpleExecute(updateSql, obj);
 

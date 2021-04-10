@@ -47,9 +47,10 @@ async function post(req, res, next){
   } catch (err) {
     next(err);
   }
-}
-
+} 
 module.exports.post = post;
+
+
 
 async function put(req, res, next){
   try {
@@ -57,7 +58,7 @@ async function put(req, res, next){
 
     console.log('put',employee);
 
-    employee.ecode = parseInt(req.params.id, 10);
+    //employee.ecode = parseInt(req.params.id, 10);
 
     employee = await employees.update(employee);
 
